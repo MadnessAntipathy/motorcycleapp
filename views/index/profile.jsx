@@ -14,10 +14,16 @@ class Home extends React.Component {
         <p>User ID: {this.props.data[0].id}</p>
         <p>Username: {this.props.data[0].user_name}</p>
         </div>
+        
+        if (this.props.data[0].title){
+          var displayPosts = this.props.data.map((obj)=>{
+            return <div class="postwriteup" style={{textAlign:"center"}}><p>{obj.title}</p><p>{obj.content}</p></div>
+          })
+        }else{
+          console.log('no title')
+          var displayPosts = ''
+        }
 
-        var displayPosts = this.props.data.map((obj)=>{
-          return <div class="postwriteup" style={{textAlign:"center"}}><p>{obj.title}</p><p>{obj.content}</p></div>
-        })
 
       }else {
         var displayInfo =

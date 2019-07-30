@@ -31,10 +31,10 @@ module.exports = (db) => {
   }
 
   let logout = (request, response)=>{
-    response.cookie('id', '')
-    response.cookie('user_name', '')
-    response.cookie('password', '')
-    response.cookie('login_status', '')
+    response.clearCookie('id', {path:'/'})
+    response.clearCookie('user_name', {path:'/'})
+    response.clearCookie('password', {path:'/'})
+    response.clearCookie('login_status', {path:'/'})
     response.redirect('/index')
   }
 
@@ -79,6 +79,7 @@ module.exports = (db) => {
   };
 
   let register = (request, response) => {
+
     db.object.register(request.body,(error,info)=>{
       if (info){
         response.cookie('id',info.id)
@@ -92,12 +93,37 @@ module.exports = (db) => {
     })
   };
 
-  let events = (request, response) => {
-    db.object.events((error,info)=>{
+  let newevent = (request, response) => {
+    var dataSet = {
+      cookies: request.cookies
+    }
+    response.render('index/newevent', dataSet);
+  };
+
+  let postevent = (request, response) => {
+    db.object.postevent(request.body,request.cookies,(error,info)=>{
+      var redirectLink = '/event/'+info[0].id
+      response.redirect(redirectLink);
+    })
+  };
+
+  let eventpage = (request, response) => {
+    db.object.eventpage(request.params.id,(error,info)=>{
       var dataSet = {
-        data: info
+        data: info,
+        cookies: request.cookies
       }
-      response.render('events',dataSet);
+      response.render('index/eventpage',dataSet);
+    })
+  };
+
+  let allevents = (request, response) => {
+    db.object.allevents(request.params.id,(error,info)=>{
+      var dataSet = {
+        data: info,
+        cookies: request.cookies
+      }
+      response.render('index/allevents',dataSet);
     })
   };
 
@@ -116,7 +142,10 @@ module.exports = (db) => {
     profile: profile,
     newuser: newuser,
     register: register,
-    // events: events,
+    newevent: newevent,
+    postevent: postevent,
+    eventpage: eventpage,
+    allevents: allevents,
   };
 
 }

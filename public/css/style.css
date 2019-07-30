@@ -18,6 +18,27 @@ body {
   border-radius: 25px;
 }
 
+.eventcards {
+  text-decoration: none;
+  color: rgba(255,255,255,1);
+}
+a:active{
+  text-decoration: none;
+  color: rgba(255,255,255,1);
+}
+a.eventcards:hover{
+  text-decoration: none;
+  color: rgba(255,255,255,1);
+}
+a:visited{
+  text-decoration: none;
+  color: rgba(255,255,255,1);
+}
+a:link{
+  text-decoration: none;
+  color: rgba(255,255,255,1);
+}
+
 .postwriteup {
   color: rgba(255,255,255,1);
   margin: 50px auto;

@@ -26,6 +26,11 @@ class Layout extends React.Component {
           <a class="nav-link" href="/newarticle">New Article <span class="sr-only">(current)</span></a>
         </li>
 
+        var createEvent =
+        <li class="nav-item">
+          <a class="nav-link" href="/newevent">New Event <span class="sr-only">(current)</span></a>
+        </li>
+
       }else{
         var loginstatus =
         <form class="form-inline my-2 my-lg-0" action="/index" method="post">
@@ -42,6 +47,8 @@ class Layout extends React.Component {
         var profile = ""
 
         var submitArticle = ""
+
+        var createEvent = ""
       }
     }
 
@@ -68,30 +75,10 @@ class Layout extends React.Component {
                 <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Events <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Resources <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Partners <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/events">Events <span class="sr-only">(current)</span></a>
               </li>
               {profile}
-              {submitArticle}
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-              </li>
+              {createEvent}
             </ul>
             {loginstatus}
             {register}

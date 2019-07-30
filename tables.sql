@@ -16,7 +16,11 @@ CREATE TABLE IF NOT EXISTS userevents (
 CREATE TABLE IF NOT EXISTS eventinfo (
   id SERIAL PRIMARY KEY,
   event_name TEXT,
-  event_details TEXT,
+  start_date TEXT,
+  end_date TEXT,
+  duration TEXT,
+  event_route TEXT,
+  event_description TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 -- database of which user signed up for the event

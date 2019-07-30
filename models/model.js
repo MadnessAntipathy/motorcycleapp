@@ -65,8 +65,39 @@ module.exports = (dbPoolInstance) => {
     });
   };
 
+  let postevent = (info,cookies,callback) => {
+    //insert statement here to update event table
+    let query = 'INSERT INTO eventinfo (event_name,start_date,end_date,duration,event_route,event_description) VALUES ($1,$2,$3,$4,$5,$6) RETURNING id';
+    let values = [info.event_name,info.start_date,info.end_date,info.duration,info.event_route,info.event_description]
+    dbPoolInstance.query(query,values,(error, queryResult) => {
+      if( error ){
+        callback(error, null);
+      }else{
+        if( queryResult.rows.length > 0 ){
+          let secondQuery = 'INSERT INTO userevents (user_id, event_id) VALUES ($1,$2) RETURNING id'
+          let secondValues = [cookies.id,queryResult.rows[0].id]
+          dbPoolInstance.query(secondQuery,secondValues,(error, queryRes) => {
+            if( error ){
+              callback(error, null);
+            }else{
+              if( queryRes.rows.length > 0 ){
+                callback(null, queryResult.rows);
+              }else{
+                callback(null, null);
+              }
+            }
+          })
+        }else{
+          callback(null, null);
+        }
+      }
+    });
+  };
+
   let profile = (info,callback) => {
-    let query = 'SELECT users.id, users.user_name, users.password, articles.title, articles.content FROM users INNER JOIN userarticles ON (users.id = userarticles.user_id) INNER JOIN articles on (userarticles.article_id = articles.id) WHERE users.id='+info.id;
+    // SELECT users.id, users.user_name, users.password, articles.title, articles.content FROM users LEFT OUTER JOIN userarticles ON (users.id = userarticles.user_id) LEFT OUTER JOIN articles on (userarticles.article_id = articles.id) WHERE users.id=+info.id;
+    // SELECT users.id, users.user_name, users.password, articles.title, articles.content FROM users INNER JOIN userarticles ON (users.id = userarticles.user_id) INNER JOIN articles on (userarticles.article_id = articles.id) WHERE users.id='+info.id
+    let query = 'SELECT users.id, users.user_name, users.password, articles.title, articles.content FROM users LEFT OUTER JOIN userarticles ON (users.id = userarticles.user_id) LEFT OUTER JOIN articles on (userarticles.article_id = articles.id) WHERE users.id='+info.id;
     dbPoolInstance.query(query,(error, queryResult) => {
       if( error ){
         callback(error, null);
@@ -81,8 +112,7 @@ module.exports = (dbPoolInstance) => {
   };
 
   let register = (info,callback) => {
-    console.log(info)
-    let query = 'INSERT INTO users (user_name, password) SELECT $1,$2 WHERE NOT EXISTS (SELECT 1 FROM users WHERE user_name=$1) RETURNING *';
+    let query = 'INSERT INTO users (user_name, password) SELECT $1,$2 WHERE NOT EXISTS (SELECT * FROM users WHERE user_name=$1) RETURNING *';
     let values = [info.user_name, info.password]
     dbPoolInstance.query(query,values,(error, queryResult) => {
       if( error ){
@@ -97,8 +127,23 @@ module.exports = (dbPoolInstance) => {
     });
   };
 
-  let events = (info,callback) => {
-    let query = 'SELECT * FROM events ORDER BY created_at'
+  let eventpage = (info,callback) => {
+    let query = 'SELECT * FROM eventinfo INNER JOIN userevents ON (eventinfo.id = userevents.event_id) INNER JOIN users ON (userevents.user_id = users.id) WHERE eventinfo.id='+info
+    dbPoolInstance.query(query,(error, queryResult) => {
+      if( error ){
+        callback(error, null);
+      }else{
+        if( queryResult.rows.length > 0 ){
+          callback(null, queryResult.rows);
+        }else{
+          callback(null, null);
+        }
+      }
+    });
+  };
+
+  let allevents = (info,callback) => {
+    let query = 'SELECT * FROM eventinfo INNER JOIN userevents ON (eventinfo.id = userevents.event_id) INNER JOIN users ON (userevents.user_id = users.id) ORDER BY eventinfo.created_at DESC LIMIT 3'
     dbPoolInstance.query(query,(error, queryResult) => {
       if( error ){
         callback(error, null);
@@ -118,6 +163,8 @@ module.exports = (dbPoolInstance) => {
     postarticle,
     profile,
     register,
-    // events,
+    postevent,
+    eventpage,
+    allevents,
   };
 };
