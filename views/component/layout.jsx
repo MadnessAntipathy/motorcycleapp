@@ -2,7 +2,6 @@ var React = require("react");
 
 class Layout extends React.Component {
   render() {
-    console.log(this.props.types);
     if (this.props.cookies){
       if (this.props.cookies.login_status === "true"){
         var loginstatus =

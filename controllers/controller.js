@@ -24,7 +24,6 @@ module.exports = (db) => {
           response.redirect('/index')
         }
       }else {
-        // response.send("oops!")
         response.render('index/incorrectlogin', request.cookies)
       }
     })
@@ -108,7 +107,7 @@ module.exports = (db) => {
   };
 
   let eventpage = (request, response) => {
-    db.object.eventpage(request.params.id,(error,info)=>{
+    db.object.eventpage(request.params.id,request.cookies,(error,info)=>{
       var dataSet = {
         data: info,
         cookies: request.cookies
@@ -126,6 +125,17 @@ module.exports = (db) => {
       response.render('index/allevents',dataSet);
     })
   };
+
+  let signup = (request, response) => {
+    db.object.signup(request.body,(error,info)=>{
+      var dataSet = {
+        data: info,
+        cookies: request.cookies
+      }
+      response.send("works!")
+    })
+  };
+
 
   /**
    * ===========================================
@@ -146,6 +156,7 @@ module.exports = (db) => {
     postevent: postevent,
     eventpage: eventpage,
     allevents: allevents,
+    signup: signup,
   };
 
 }

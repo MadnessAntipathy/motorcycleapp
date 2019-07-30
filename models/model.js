@@ -127,8 +127,50 @@ module.exports = (dbPoolInstance) => {
     });
   };
 
-  let eventpage = (info,callback) => {
-    let query = 'SELECT * FROM eventinfo INNER JOIN userevents ON (eventinfo.id = userevents.event_id) INNER JOIN users ON (userevents.user_id = users.id) WHERE eventinfo.id='+info
+  let eventpage = (info,cookies,callback) => {
+    // eventinfo.id AS eid,eventinfo.event_name,eventinfo.start_date,eventinfo.end_date,eventinfo.duration,eventinfo.event_route,eventinfo.event_description,eventinfo.created_at,users.id AS uid,users.user_name,userevents.user_id AS ueuid,userevents.event_id AS ueeid
+    let query = 'SELECT * FROM eventinfo LEFT OUTER JOIN userevents ON (eventinfo.id = userevents.event_id) LEFT OUTER JOIN users ON (userevents.user_id = users.id) WHERE eventinfo.id='+info
+    dbPoolInstance.query(query,(error, queryResult) => {
+      if( error ){
+        callback(error, null);
+      }else{
+        if( queryResult.rows.length > 0 ){
+          if (cookies.id){
+            let secondQuery = 'SELECT * FROM signups WHERE user_id=$1 AND event_id=$2'
+            let values = [cookies.id, queryResult.rows[0].event_id]
+            dbPoolInstance.query(secondQuery,values,(err, queryRes) => {
+              if( err ){
+                callback(error, null);
+              }else{
+                if( queryRes.rows.length > 0 ){
+                  var dataSet = {
+                    queryResult: queryResult.rows,
+                    queryRes: queryRes.rows
+                  }
+                  callback(null, dataSet)
+                }else{
+                  var dataSet = {
+                    queryResult: queryResult.rows,
+                    queryRes: null
+                  }
+                  callback(null, dataSet)
+                }
+              }
+            });
+          }else{
+            var dataSet = {
+              queryResult: queryResult.rows,
+              queryRes: null
+            }
+            callback(null, dataSet);
+          }
+        }
+      }
+    });
+  }
+
+  let allevents = (info,callback) => {
+    let query = 'SELECT * FROM eventinfo INNER JOIN userevents ON (eventinfo.id = userevents.event_id) INNER JOIN users ON (userevents.user_id = users.id) ORDER BY eventinfo.created_at DESC LIMIT 3'
     dbPoolInstance.query(query,(error, queryResult) => {
       if( error ){
         callback(error, null);
@@ -142,9 +184,12 @@ module.exports = (dbPoolInstance) => {
     });
   };
 
-  let allevents = (info,callback) => {
-    let query = 'SELECT * FROM eventinfo INNER JOIN userevents ON (eventinfo.id = userevents.event_id) INNER JOIN users ON (userevents.user_id = users.id) ORDER BY eventinfo.created_at DESC LIMIT 3'
-    dbPoolInstance.query(query,(error, queryResult) => {
+  let signup = (info,callback) => {
+    var data = JSON.parse(info.data)
+    // 'INSERT INTO userevents (user_id,event_id) VALUES ($1,$2) RETURNING *'
+    let query = data.status
+    let values = [data.cookies.id, data.data.event_id]
+    dbPoolInstance.query(query,values,(error, queryResult) => {
       if( error ){
         callback(error, null);
       }else{
@@ -166,5 +211,6 @@ module.exports = (dbPoolInstance) => {
     postevent,
     eventpage,
     allevents,
+    signup,
   };
 };

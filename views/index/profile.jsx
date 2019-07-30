@@ -4,8 +4,6 @@ var Layout = require("../component/layout.jsx")
 
 class Home extends React.Component {
   render() {
-    console.log(this.props.types);
-    console.log(this.props.data)
     if (this.props.cookies.password){
       if (this.props.cookies.password == this.props.data[0].password){
 
@@ -14,7 +12,7 @@ class Home extends React.Component {
         <p>User ID: {this.props.data[0].id}</p>
         <p>Username: {this.props.data[0].user_name}</p>
         </div>
-        
+
         if (this.props.data[0].title){
           var displayPosts = this.props.data.map((obj)=>{
             return <div class="postwriteup" style={{textAlign:"center"}}><p>{obj.title}</p><p>{obj.content}</p></div>
