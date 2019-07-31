@@ -15,7 +15,18 @@ class Home extends React.Component {
 
         if (this.props.data[0].event_name){
           var displayPosts = this.props.data.map((obj)=>{
-            return <Peventcard event_name={obj.event_name} event_id={obj.eid} event_description={obj.event_description}></Peventcard>
+            var q = new Date();
+            var eventdate = new Date(obj.start_date)
+            if (eventdate >= q){
+              return <Peventcard event_name={obj.event_name} event_id={obj.eid} event_description={obj.event_description}></Peventcard>
+            }
+          })
+          var displayPast = this.props.data.map((obj)=>{
+            var eventdate = new Date(obj.start_date)
+            var q = new Date();
+            if (eventdate < q){
+              return <Peventcard event_name={obj.event_name} event_id={obj.eid} event_description={obj.event_description}></Peventcard>
+            }
           })
         }else{
           var displayPosts = <p>(Oops! It looks like you have not joined any events. Check out some events happening!)</p>
@@ -28,6 +39,7 @@ class Home extends React.Component {
         <p>It appears that you are trying to access a page without permission, please log in with your credentials to continue. Thank you</p>
         </div>
         var displayPosts = ''
+        var displayPast = ''
       }
     }else {
       var displayInfo =
@@ -35,6 +47,7 @@ class Home extends React.Component {
       <p>It appears that you are trying to access a page without permission, please log in with your credentials to continue. Thank you</p>
       </div>
       var displayPosts = ''
+      var displayPast = ''
     }
 
     return (
@@ -43,6 +56,10 @@ class Home extends React.Component {
       <div class="articlewriteup" style={{textAlign:"center"}}>
       <h3>Here are the events you've joined!</h3>
       {displayPosts}
+      </div>
+      <div class="articlewriteup" style={{textAlign:"center"}}>
+      <h3>Here are your past events!</h3>
+      {displayPast}
       </div>
       </Layout>
     );

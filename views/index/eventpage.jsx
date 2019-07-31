@@ -6,14 +6,16 @@ var Commentcard = require("../component/component-comment-card.jsx")
 
 class Home extends React.Component {
   render() {
-    var displayInfo = this.props.data.queryResult.map((obj)=>{
-      if (this.props.data.queryRes.length > 0){
-        var loggedInStatus = <button id="btn">Withdraw from the ride!</button>
-      }else{
-        var loggedInStatus = <button id="btn">Sign up for the ride!</button>
-      }
-      return <Eventcard cookies={this.props.cookies} loggedInStatus={loggedInStatus} event_id={obj.eid} user_name={obj.user_name} event_name ={obj.event_name} start_date={obj.start_date} end_date={obj.end_date} duration={obj.duration} event_route={obj.event_route} event_description={obj.event_description} created_at={obj.e_created_at}></Eventcard>
-    })
+    if (this.props.data.queryResult){
+      var displayInfo = this.props.data.queryResult.map((obj)=>{
+        if (this.props.data.queryRes.length > 0){
+          var loggedInStatus = <button id="btn">Withdraw from the ride!</button>
+        }else{
+          var loggedInStatus = <button id="btn">Sign up for the ride!</button>
+        }
+        return <Eventcard cookies={this.props.cookies} loggedInStatus={loggedInStatus} event_id={obj.eid} user_name={obj.user_name} event_name ={obj.event_name} start_date={obj.start_date} end_date={obj.end_date} duration={obj.duration} event_route={obj.event_route} event_description={obj.event_description} created_at={obj.e_created_at}></Eventcard>
+      })
+    }
 
     if (this.props.cookies.login_status === "true"){
       if (this.props.data.queryRes.length > 0){
@@ -44,7 +46,7 @@ class Home extends React.Component {
     }else {
       var signups = ""
     }
-    console.log(this.props.data.commentResult.length > 0)
+
     if (this.props.data.commentResult.length > 0){
       var comments = this.props.data.commentResult.map((obj)=>{
         return <Commentcard comment={obj.comment} user_id={obj.user_id} user_name={obj.user_name}></Commentcard>
@@ -61,9 +63,10 @@ class Home extends React.Component {
           <div>
             {displayInfo}
           </div>
-          {addComments}
+
           <div class="commentsbox">
             <h3>Comments Box</h3>
+            {addComments}
             <div id="commentsgohere">
             {comments}
             </div>

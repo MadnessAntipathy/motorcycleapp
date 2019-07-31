@@ -54,7 +54,7 @@ module.exports = (dbPoolInstance) => {
   let profile = (info,callback) => {
     // SELECT users.id, users.user_name, users.password, articles.title, articles.content FROM users LEFT OUTER JOIN userarticles ON (users.id = userarticles.user_id) LEFT OUTER JOIN articles on (userarticles.article_id = articles.id) WHERE users.id=+info.id;
     // SELECT users.id, users.user_name, users.password, articles.title, articles.content FROM users INNER JOIN userarticles ON (users.id = userarticles.user_id) INNER JOIN articles on (userarticles.article_id = articles.id) WHERE users.id='+info.id
-    let query = 'SELECT users.id, users.user_name, users.password, eventinfo.id AS eid, eventinfo.event_name, eventinfo.event_description, eventinfo.created_at FROM users LEFT OUTER JOIN signups ON (users.id = signups.user_id) LEFT OUTER JOIN eventinfo on (signups.event_id = eventinfo.id) WHERE users.id='+info.id;
+    let query = 'SELECT users.id, users.user_name, users.password, eventinfo.id AS eid, eventinfo.event_name, eventinfo.event_description, eventinfo.created_at, eventinfo.start_date FROM users LEFT OUTER JOIN signups ON (users.id = signups.user_id) LEFT OUTER JOIN eventinfo on (signups.event_id = eventinfo.id) WHERE users.id='+info.id;
     dbPoolInstance.query(query,(error, queryResult) => {
       if( error ){
         callback(error, null);
@@ -110,9 +110,14 @@ module.exports = (dbPoolInstance) => {
                       if( err ){
                         callback(error, null);
                       }else{
+                        if (queryRes.rows === null){
+                            var fillerArray = []
+                        }else {
+                          var fillerArray = queryRes.rows
+                        }
                           var dataSet = {
                             queryResult: queryResult.rows,
-                            queryRes: queryRes.rows,
+                            queryRes: fillerArray,
                             result:result.rows,
                             commentResult:commentResult.rows
                           }
@@ -120,9 +125,10 @@ module.exports = (dbPoolInstance) => {
                       }
                     });
                   }else{
+                    var fillerArray = []
                     var dataSet = {
                       queryResult: queryResult.rows,
-                      queryRes: null,
+                      queryRes: fillerArray,
                       result:result.rows,
                       commentResult:commentResult.rows
                     }
@@ -130,37 +136,6 @@ module.exports = (dbPoolInstance) => {
                   }
                 }
               })
-
-              //
-              // if (cookies.id){
-              //   let secondQuery = 'SELECT * FROM signups WHERE user_id=$1 AND event_id=$2'
-              //   let values = [cookies.id,queryResult.rows[0].eid]
-              //   dbPoolInstance.query(secondQuery,values,(err, queryRes) => {
-              //     if( err ){
-              //       callback(error, null);
-              //     }else{
-              //         var dataSet = {
-              //           queryResult: queryResult.rows,
-              //           queryRes: queryRes.rows,
-              //           result:result.rows
-              //         }
-              //         callback(null, dataSet)
-              //     }
-              //   });
-              // }else{
-              //   var dataSet = {
-              //     queryResult: queryResult.rows,
-              //     queryRes: null,
-              //     result:result.rows
-              //   }
-              //   callback(null, dataSet);
-              // }
-
-
-
-
-
-
             }
           })
         }
@@ -169,7 +144,7 @@ module.exports = (dbPoolInstance) => {
   }
 
   let allevents = (info,callback) => {
-    let query = 'SELECT * FROM eventinfo INNER JOIN userevents ON (eventinfo.id = userevents.event_id) INNER JOIN users ON (userevents.user_id = users.id) ORDER BY eventinfo.created_at DESC LIMIT 3'
+    let query = 'SELECT * FROM eventinfo INNER JOIN userevents ON (eventinfo.id = userevents.event_id) INNER JOIN users ON (userevents.user_id = users.id) WHERE eventinfo.start_date::date > (SELECT NOW()::date) ORDER BY eventinfo.start_date DESC'
     dbPoolInstance.query(query,(error, queryResult) => {
       if( error ){
         callback(error, null);

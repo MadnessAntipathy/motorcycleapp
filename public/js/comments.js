@@ -1,12 +1,14 @@
 var commentButton = document.querySelector("#submitcomment")
 var commentText = document.querySelector("#commentid")
+if (commentButton){
+  commentButton.addEventListener('click',submitComment)  
+}
 
-commentButton.addEventListener('click',submitComment)
 
 function submitComment (){
 
   var outerDiv = document.createElement('div')
-  outerDiv.class = "commentcards"
+  outerDiv.className = "commentcards"
   var innerDiv = document.createElement('div')
   var commentPara = document.createElement('p')
   commentPara.innerHTML = commentText.value
@@ -14,8 +16,13 @@ function submitComment (){
   commentByPara.style.textAlign = "right"
   var anchorLink = document.createElement('a')
   anchorLink.href = "/users/"+cookies.id
-  anchorLink.innerHTML = cookies.user_name
-  commentByPara.innerHTML = `By: ${anchorLink}`
+  anchorLink.text = cookies.user_name
+  anchorLink.style.display = "inline"
+  var text = document.createElement('p')
+  text.innerHTML = "By: "
+  text.style.display = "inline"
+  commentByPara.appendChild(text)
+  commentByPara.appendChild(anchorLink)
   innerDiv.appendChild(commentPara)
   outerDiv.appendChild(innerDiv)
   outerDiv.appendChild(commentByPara)

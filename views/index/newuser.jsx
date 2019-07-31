@@ -22,3 +22,11 @@ class Home extends React.Component {
 }
 
 module.exports = Home;
+
+
+// <form action="/" enctype="multipart/form-data" method="post">
+//     <input type="file" name="upload" multiple>
+//     <input type="submit" value="Upload">
+// </form>
+// <form action="/register" enctype="multipart/form-data" method="post">
+// <input type="file" name="upload" multiple/>

@@ -1,3 +1,5 @@
+
+
 module.exports = (db) => {
 
   /**
@@ -60,7 +62,7 @@ module.exports = (db) => {
   };
 
   let register = (request, response) => {
-
+    console.log(request.body)
     db.object.register(request.body,(error,info)=>{
       if (info){
         response.cookie('id',info.id)
@@ -94,6 +96,7 @@ module.exports = (db) => {
         data: info,
         cookies: request.cookies
       }
+      console.log(info)
       response.render('index/eventpage',dataSet);
     })
   };
