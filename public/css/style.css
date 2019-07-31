@@ -18,6 +18,75 @@ body {
   border-radius: 25px;
 }
 
+#eventpage-container{
+  display: flex;
+  flex-direction: rows;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+#displaycommentwrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.signups {
+  max-width: 100%;
+}
+
+.addcommentsbox{
+  border-radius: 25px;
+  color: rgba(255,255,255,1);
+  background-color: rgba(10,10,10,0.8);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.commentsbox{
+  margin: 10px;
+  border-radius: 25px;
+  color: rgba(255,255,255,1);
+  background-color: rgba(10,10,10,0.8);
+  padding: 10px;
+}
+
+#signupcontainer{
+  border-radius: 25px;
+  max-width: 200px;
+  min-width: 200px;
+  background-color: rgba(10,10,10,0.8);
+  text-align: center;
+  margin: 50px 0 0 20px;
+}
+
+/* #commentid {
+  display:block;
+  margin: 0 auto;
+}
+
+#submitcomment {
+  text-align: center;
+} */
+
+.commentcards {
+  border-radius: 25px;
+  width: 400px;
+  border: 1px solid white;
+  margin: 0 auto;
+  color: rgba(255,255,255,1);
+
+  padding: 10px;
+}
+
+ul{
+  padding: 0;
+}
+
 .eventcards {
   text-decoration: none;
   color: rgba(255,255,255,1);

@@ -38,33 +38,15 @@ module.exports = (db) => {
   }
 
   let home = (request, response) => {
-    db.object.home((error,info) => {
-      var dataSet = {
-        cookies: request.cookies,
-        data: info
-      }
-      response.render('index/home', dataSet);
-    })
-  };
-
-  let newarticle = (request, response) => {
-    var dataSet = {
-      cookies: request.cookies,
+    var dataSet={
+      cookies:request.cookies
     }
-    response.render('index/newarticle', dataSet);
-  };
-
-  let postarticle = (request, response) => {
-    db.object.postarticle(request.cookies,request.body,(error,info)=>{
-      var dataSet = {
-        data: info
-      }
-      response.redirect('/home');
-    })
+      response.render('index/home',dataSet);
   };
 
   let profile = (request, response) => {
     db.object.profile(request.cookies,(error,info)=>{
+      console.log(info)
       var dataSet = {
         data: info,
         cookies: request.cookies
@@ -136,6 +118,16 @@ module.exports = (db) => {
     })
   };
 
+  let addcomment = (request, response) => {
+    db.object.addcomment(request.body,(error,info)=>{
+      var dataSet = {
+        data: info,
+        cookies: request.cookies
+      }
+      response.send("works!")
+    })
+  };
+
 
   /**
    * ===========================================
@@ -147,8 +139,6 @@ module.exports = (db) => {
     login: login,
     logout: logout,
     home: home,
-    newarticle: newarticle,
-    postarticle: postarticle,
     profile: profile,
     newuser: newuser,
     register: register,
@@ -157,6 +147,7 @@ module.exports = (db) => {
     eventpage: eventpage,
     allevents: allevents,
     signup: signup,
+    addcomment: addcomment,
   };
 
 }

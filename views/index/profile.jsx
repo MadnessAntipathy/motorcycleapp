@@ -1,6 +1,6 @@
 var React = require("react");
 var Layout = require("../component/layout.jsx")
-
+var Peventcard = require("../component/component-event-profile-preview.jsx")
 
 class Home extends React.Component {
   render() {
@@ -13,13 +13,12 @@ class Home extends React.Component {
         <p>Username: {this.props.data[0].user_name}</p>
         </div>
 
-        if (this.props.data[0].title){
+        if (this.props.data[0].event_name){
           var displayPosts = this.props.data.map((obj)=>{
-            return <div class="postwriteup" style={{textAlign:"center"}}><p>{obj.title}</p><p>{obj.content}</p></div>
+            return <Peventcard event_name={obj.event_name} event_id={obj.eid} event_description={obj.event_description}></Peventcard>
           })
         }else{
-          console.log('no title')
-          var displayPosts = ''
+          var displayPosts = <p>(Oops! It looks like you have not joined any events. Check out some events happening!)</p>
         }
 
 
@@ -42,7 +41,7 @@ class Home extends React.Component {
       <Layout cookies={this.props.cookies}>
       {displayInfo}
       <div class="articlewriteup" style={{textAlign:"center"}}>
-      <h3>Here's a recap on what you've wrote</h3>
+      <h3>Here are the events you've joined!</h3>
       {displayPosts}
       </div>
       </Layout>

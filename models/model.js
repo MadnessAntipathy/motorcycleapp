@@ -22,49 +22,6 @@ module.exports = (dbPoolInstance) => {
     });
   };
 
-  let home = (callback) => {
-    let query = 'SELECT articles.title, articles.content, articles.created_at, users.user_name, users.id FROM articles INNER JOIN userarticles ON (articles.id = userarticles.article_id) INNER JOIN users ON (userarticles.user_id = users.id) ORDER BY articles.created_at DESC LIMIT 5 OFFSET 0';
-    dbPoolInstance.query(query,(error, queryResult) => {
-      if( error ){
-        callback(error, null);
-      }else{
-        if( queryResult.rows.length > 0 ){
-          callback(null, queryResult.rows);
-        }else{
-          callback(null, null);
-        }
-      }
-    });
-  };
-
-  let postarticle = (cookies,info,callback) => {
-    let query = 'INSERT INTO articles (title, content) VALUES ($1,$2) RETURNING id';
-    let values = [info.title, info.content]
-    dbPoolInstance.query(query,values,(error, queryResult) => {
-      if( error ){
-        callback(error, null);
-      }else{
-        if( queryResult.rows.length > 0 ){
-          let query = 'INSERT INTO userarticles (user_id, article_id) VALUES ($1,$2) RETURNING id';
-          let values = [cookies.id, queryResult.rows[0].id]
-          dbPoolInstance.query(query,values,(error, queryRes) => {
-            if( error ){
-              callback(error, null);
-            }else{
-              if( queryRes.rows.length > 0 ){
-                callback(null, queryResult.rows);
-              }else{
-                callback(null, null);
-              }
-            }
-          })
-        }else{
-          callback(null, null);
-        }
-      }
-    });
-  };
-
   let postevent = (info,cookies,callback) => {
     //insert statement here to update event table
     let query = 'INSERT INTO eventinfo (event_name,start_date,end_date,duration,event_route,event_description) VALUES ($1,$2,$3,$4,$5,$6) RETURNING id';
@@ -97,7 +54,7 @@ module.exports = (dbPoolInstance) => {
   let profile = (info,callback) => {
     // SELECT users.id, users.user_name, users.password, articles.title, articles.content FROM users LEFT OUTER JOIN userarticles ON (users.id = userarticles.user_id) LEFT OUTER JOIN articles on (userarticles.article_id = articles.id) WHERE users.id=+info.id;
     // SELECT users.id, users.user_name, users.password, articles.title, articles.content FROM users INNER JOIN userarticles ON (users.id = userarticles.user_id) INNER JOIN articles on (userarticles.article_id = articles.id) WHERE users.id='+info.id
-    let query = 'SELECT users.id, users.user_name, users.password, articles.title, articles.content FROM users LEFT OUTER JOIN userarticles ON (users.id = userarticles.user_id) LEFT OUTER JOIN articles on (userarticles.article_id = articles.id) WHERE users.id='+info.id;
+    let query = 'SELECT users.id, users.user_name, users.password, eventinfo.id AS eid, eventinfo.event_name, eventinfo.event_description, eventinfo.created_at FROM users LEFT OUTER JOIN signups ON (users.id = signups.user_id) LEFT OUTER JOIN eventinfo on (signups.event_id = eventinfo.id) WHERE users.id='+info.id;
     dbPoolInstance.query(query,(error, queryResult) => {
       if( error ){
         callback(error, null);
@@ -129,41 +86,83 @@ module.exports = (dbPoolInstance) => {
 
   let eventpage = (info,cookies,callback) => {
     // eventinfo.id AS eid,eventinfo.event_name,eventinfo.start_date,eventinfo.end_date,eventinfo.duration,eventinfo.event_route,eventinfo.event_description,eventinfo.created_at,users.id AS uid,users.user_name,userevents.user_id AS ueuid,userevents.event_id AS ueeid
-    let query = 'SELECT * FROM eventinfo LEFT OUTER JOIN userevents ON (eventinfo.id = userevents.event_id) LEFT OUTER JOIN users ON (userevents.user_id = users.id) WHERE eventinfo.id='+info
+    let query = 'SELECT *, eventinfo.id AS eid,eventinfo.created_at AS e_created_at FROM eventinfo LEFT OUTER JOIN userevents ON (eventinfo.id = userevents.event_id) LEFT OUTER JOIN users ON (userevents.user_id = users.id) WHERE eventinfo.id='+info
     dbPoolInstance.query(query,(error, queryResult) => {
       if( error ){
         callback(error, null);
       }else{
         if( queryResult.rows.length > 0 ){
-          if (cookies.id){
-            let secondQuery = 'SELECT * FROM signups WHERE user_id=$1 AND event_id=$2'
-            let values = [cookies.id, queryResult.rows[0].event_id]
-            dbPoolInstance.query(secondQuery,values,(err, queryRes) => {
-              if( err ){
-                callback(error, null);
-              }else{
-                if( queryRes.rows.length > 0 ){
-                  var dataSet = {
-                    queryResult: queryResult.rows,
-                    queryRes: queryRes.rows
-                  }
-                  callback(null, dataSet)
+          let nextQuery = 'SELECT * FROM users INNER JOIN signups ON (users.id = signups.user_id) WHERE signups.event_id='+queryResult.rows[0].eid
+          dbPoolInstance.query(nextQuery,(errr,result)=>{
+            if (errr){
+              callback(errr,null)
+            }else{
+              let commentQuery = 'SELECT * FROM users INNER JOIN comments ON (users.id=comments.user_id) WHERE comments.event_id=$1 ORDER BY comments.created_at DESC'
+              let value = [queryResult.rows[0].eid]
+              dbPoolInstance.query(commentQuery,value,(errrr,commentResult)=>{
+                if (errrr){
+                  callback(errrr,null)
                 }else{
-                  var dataSet = {
-                    queryResult: queryResult.rows,
-                    queryRes: null
+                  if (cookies.id){
+                    let secondQuery = 'SELECT * FROM signups WHERE user_id=$1 AND event_id=$2'
+                    let values = [cookies.id,queryResult.rows[0].eid]
+                    dbPoolInstance.query(secondQuery,values,(err, queryRes) => {
+                      if( err ){
+                        callback(error, null);
+                      }else{
+                          var dataSet = {
+                            queryResult: queryResult.rows,
+                            queryRes: queryRes.rows,
+                            result:result.rows,
+                            commentResult:commentResult.rows
+                          }
+                          callback(null, dataSet)
+                      }
+                    });
+                  }else{
+                    var dataSet = {
+                      queryResult: queryResult.rows,
+                      queryRes: null,
+                      result:result.rows,
+                      commentResult:commentResult.rows
+                    }
+                    callback(null, dataSet);
                   }
-                  callback(null, dataSet)
                 }
-              }
-            });
-          }else{
-            var dataSet = {
-              queryResult: queryResult.rows,
-              queryRes: null
+              })
+
+              //
+              // if (cookies.id){
+              //   let secondQuery = 'SELECT * FROM signups WHERE user_id=$1 AND event_id=$2'
+              //   let values = [cookies.id,queryResult.rows[0].eid]
+              //   dbPoolInstance.query(secondQuery,values,(err, queryRes) => {
+              //     if( err ){
+              //       callback(error, null);
+              //     }else{
+              //         var dataSet = {
+              //           queryResult: queryResult.rows,
+              //           queryRes: queryRes.rows,
+              //           result:result.rows
+              //         }
+              //         callback(null, dataSet)
+              //     }
+              //   });
+              // }else{
+              //   var dataSet = {
+              //     queryResult: queryResult.rows,
+              //     queryRes: null,
+              //     result:result.rows
+              //   }
+              //   callback(null, dataSet);
+              // }
+
+
+
+
+
+
             }
-            callback(null, dataSet);
-          }
+          })
         }
       }
     });
@@ -185,10 +184,10 @@ module.exports = (dbPoolInstance) => {
   };
 
   let signup = (info,callback) => {
-    var data = JSON.parse(info.data)
+    let data = JSON.parse(info.data)
     // 'INSERT INTO userevents (user_id,event_id) VALUES ($1,$2) RETURNING *'
     let query = data.status
-    let values = [data.cookies.id, data.data.event_id]
+    let values = [data.cookies.id, data.data.eid]
     dbPoolInstance.query(query,values,(error, queryResult) => {
       if( error ){
         callback(error, null);
@@ -202,15 +201,33 @@ module.exports = (dbPoolInstance) => {
     });
   };
 
+  let addcomment = (info,callback) => {
+    let data = JSON.parse(info.data)
+    console.log(data)
+    let query = 'INSERT INTO comments (user_id, event_id, comment) VALUES ($1,$2,$3)'
+    let values = [data.cookies, data.data, data.comment]
+    dbPoolInstance.query(query,values,(error, queryResult) => {
+      if( error ){
+        callback(error, null);
+      }else{
+        if( queryResult.rows.length > 0 ){
+          callback(null, queryResult.rows);
+        }else{
+          callback(null, null);
+        }
+      }
+    });
+  };
+
+
   return {
     login,
-    home,
-    postarticle,
     profile,
     register,
     postevent,
     eventpage,
     allevents,
     signup,
+    addcomment,
   };
 };

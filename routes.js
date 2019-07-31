@@ -20,13 +20,12 @@ module.exports = (app, allModels) => {
   app.get('/events', objectControllerCallbacks.allevents);
   app.get('/event/:id', objectControllerCallbacks.eventpage);
   app.get('/profile', objectControllerCallbacks.profile);
-  app.get('/newarticle', objectControllerCallbacks.newarticle);
   app.get('/newevent', objectControllerCallbacks.newevent);
   app.post('/newevent', objectControllerCallbacks.postevent);
   app.get('/register', objectControllerCallbacks.newuser);
   app.post('/register', objectControllerCallbacks.register);
-  app.post('/newarticle', objectControllerCallbacks.postarticle);
   app.post('/signup', objectControllerCallbacks.signup);
   app.post('/index', objectControllerCallbacks.login);
   app.post('/logout', objectControllerCallbacks.logout);
+  app.post('/addcomment', objectControllerCallbacks.addcomment)
 };

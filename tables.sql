@@ -30,17 +30,12 @@ CREATE TABLE IF NOT EXISTS signups (
   event_id INTEGER,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
--- articles by users related to motorcycle riding stuff
-CREATE TABLE IF NOT EXISTS userarticles (
+
+-- database of comments made by users
+CREATE TABLE IF NOT EXISTS comments (
   id SERIAL PRIMARY KEY,
   user_id INTEGER,
-  article_id INTEGER,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
--- articles
-CREATE TABLE IF NOT EXISTS articles (
-  id SERIAL PRIMARY KEY,
-  title TEXT,
-  content TEXT,
+  event_id INTEGER,
+  comment TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
