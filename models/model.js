@@ -198,6 +198,9 @@ module.exports = (dbPoolInstance) => {
     });
   };
 
+  let posteventphotos = (info, callback) => {
+    console.log(info)
+  }
 
   return {
     login,
@@ -208,5 +211,6 @@ module.exports = (dbPoolInstance) => {
     allevents,
     signup,
     addcomment,
+    posteventphotos,
   };
 };

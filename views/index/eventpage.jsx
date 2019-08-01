@@ -64,6 +64,19 @@ class Home extends React.Component {
             {displayInfo}
           </div>
 
+
+          <div id="photogallery">
+            <div>
+              <div class="articlewriteup" style={{textAlign:"center"}}>
+              <form action="/register" enctype="multipart/form-data" method="post">
+              <input type="file" name="photogallery" multiple/>
+              <input type="submit" value="Submit event photos"/>
+              </form>
+              </div>
+            </div>
+          </div>
+
+
           <div class="commentsbox">
             <h3>Comments Box</h3>
             {addComments}

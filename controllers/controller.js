@@ -67,8 +67,8 @@ module.exports = (db) => {
   };
 
   let profile = (request, response) => {
+
     db.object.profile(request.cookies,(error,info)=>{
-      console.log(info)
       var dataSet = {
         data: info,
         cookies: request.cookies
@@ -161,6 +161,18 @@ module.exports = (db) => {
     })
   };
 
+  let posteventphotos = (request, response, next) => {
+    console.log(request.file)
+    const file = request.file
+    var requestdata = {
+      file: request.file,
+      body: request.body
+    }
+    db.object.posteventphotos(requestdata,(error,info)=>{
+      response.send("works!")
+    })
+  };
+
 
   /**
    * ===========================================
@@ -181,6 +193,7 @@ module.exports = (db) => {
     allevents: allevents,
     signup: signup,
     addcomment: addcomment,
+    posteventphotos:posteventphotos,
   };
 
 }

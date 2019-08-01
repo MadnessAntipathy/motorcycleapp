@@ -15,7 +15,9 @@ var storage = multer.diskStorage({
     cb(null, "custom-"+Date.now()+file.originalname)
   }
 })
+
 var upload = multer({ storage: storage })
+// var uploadMulti = multer({ storage: storage })
 
 
 module.exports = (app, allModels) => {
@@ -38,12 +40,13 @@ module.exports = (app, allModels) => {
   app.get('/index', objectControllerCallbacks.index);
   app.get('/home', objectControllerCallbacks.home);
   app.get('/events', objectControllerCallbacks.allevents);
+  app.post('/eventphotos', upload.array('photogallery',5), objectControllerCallbacks.posteventphotos);
   app.get('/event/:id', objectControllerCallbacks.eventpage);
   app.get('/profile', objectControllerCallbacks.profile);
   app.get('/newevent', objectControllerCallbacks.newevent);
   app.post('/newevent', objectControllerCallbacks.postevent);
   app.get('/register', objectControllerCallbacks.newuser);
-  app.post('/register', upload.single('profilephoto'),objectControllerCallbacks.register);
+  app.post('/register', upload.single('profilephoto'), objectControllerCallbacks.register);
   app.post('/signup', objectControllerCallbacks.signup);
   app.post('/index', objectControllerCallbacks.login);
   app.post('/logout', objectControllerCallbacks.logout);

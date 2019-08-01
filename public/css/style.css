@@ -9,17 +9,21 @@ body {
 }
 
 video{
-  opacity: 0.8;
-  object-position: 50% 50%;
-  position: absolute;
-  top: 50%;
+  opacity: 0.9;
+  /* right: 0;
+  bottom: 0; */
+  overflow: hidden;
+  position: fixed;
+  min-width: 100%;
+  max-width: 100%;
+  /* top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%); */
 }
 
 .welcometext {
   z-index: 2;
-  font-weight: bold; 
+  font-weight: bold;
 }
 
 .overlay {
