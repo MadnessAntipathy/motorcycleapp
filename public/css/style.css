@@ -8,6 +8,24 @@ body {
   max-width: 100%;
 }
 
+video{
+  opacity: 0.8;
+  object-position: 50% 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.welcometext {
+  z-index: 2;
+  font-weight: bold; 
+}
+
+.overlay {
+  margin: 0 auto;
+}
+
 .articlewriteup {
   color: rgba(255,255,255,1);
   margin: 50px auto;
@@ -16,6 +34,22 @@ body {
   padding: 50px 0px;
   background-color: rgba(10,10,10,0.8);
   border-radius: 25px;
+}
+
+.profilewriteup {
+  color: rgba(255,255,255,1);
+  margin: 50px auto;
+  text-align: left;
+  width: 700px;
+  padding: 50px 0px;
+  background-color: rgba(10,10,10,0.8);
+  border-radius: 25px;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.userdetails {
+  text-align: left;
 }
 
 #eventpage-container{
@@ -117,6 +151,18 @@ a:link{
   border-radius: 25px;
 }
 
+#profile-picture {
+  height: 200px;
+  width: 200px;
+  border-radius: 25px;
+  border: 1px solid rgba(255,255,255,0.5);
+  background-color: rgba(0,0,0,1);
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+
 ul {
   list-style-type: none;
 }
@@ -128,5 +174,8 @@ ul {
   }
   .articlewriteup {
     width: 500px;
+  }
+  .registerbutton{
+    display:inline-block;
   }
 }

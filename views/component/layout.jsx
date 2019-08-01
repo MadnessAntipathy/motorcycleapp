@@ -39,7 +39,7 @@ class Layout extends React.Component {
         </form>
 
         var register =
-        <form class="form-inline my-2 my-lg-0" action="/register" method="get">
+        <form id="registerbutton" class="form-inline my-2 my-lg-0" action="/register" method="get">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Register</button>
         </form>
 

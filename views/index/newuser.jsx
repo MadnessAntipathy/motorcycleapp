@@ -8,7 +8,8 @@ class Home extends React.Component {
     return (
       <Layout cookies={this.props.cookies}>
       <div class="articlewriteup" style={{textAlign:"center"}}>
-      <form action="/register" method="post">
+      <form action="/register" enctype="multipart/form-data" method="post">
+      <input type="file" name="profilephoto" />
       <label>Choose your user name</label><br/>
       <input type="text" name="user_name"/><br/><br/>
       <label>Choose your password</label><br/>

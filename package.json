@@ -14,9 +14,11 @@
     "express": "^4.16.3",
     "express-react-views": "^0.10.5",
     "method-override": "^2.3.10",
+    "multer": "^1.4.2",
     "pg": "^7.4.3",
     "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react-dom": "^16.3.2",
+    "sequelize": "^5.12.2"
   },
   "description": "Start your MVC app here by copying this bolierplate code.",
   "author": "",

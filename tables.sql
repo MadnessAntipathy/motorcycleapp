@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   user_name TEXT,
   password TEXT,
+  profile_pic TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 -- database of events created by users, links user to the event they created
@@ -21,6 +22,7 @@ CREATE TABLE IF NOT EXISTS eventinfo (
   duration TEXT,
   event_route TEXT,
   event_description TEXT,
+  event_picture TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 -- database of which user signed up for the event

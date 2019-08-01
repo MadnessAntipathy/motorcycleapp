@@ -1,4 +1,24 @@
 
+// const multer = require('multer');
+
+// const express = require('express')
+// const bodyParser= require('body-parser')
+// const app = express();
+//
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({extended: true}))
+
+// var storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, '../uploads')
+//   },
+//   filename: function (req, file, cb) {
+//     console.log("file @ storage:"+file)
+//     cb(null, "custom - "+Date.now()+file.originalname)
+//   }
+// })
+// var upload = multer({ storage: storage })
+
 
 module.exports = (db) => {
 
@@ -61,20 +81,30 @@ module.exports = (db) => {
     response.render('index/newuser');
   };
 
-  let register = (request, response) => {
-    console.log(request.body)
-    db.object.register(request.body,(error,info)=>{
-      if (info){
-        response.cookie('id',info.id)
-        response.cookie('user_name',info.user_name)
-        response.cookie('password',info.password)
-        response.cookie('login_status',"true")
-        response.redirect('/index');
-      }else{
-        response.render("index/duplicateuser")
+  let register = (request, response, next)=>{
+      console.log(request.file)
+      const file = request.file
+      // if (!file) {
+      //   const error = new Error('Please upload a file')
+      //   error.httpStatusCode = 400
+      //   return next(error)
+      // }
+      var requestdata = {
+        file: request.file,
+        body: request.body
       }
-    })
-  };
+      db.object.register(requestdata,(error,info)=>{
+        if (info){
+          response.cookie('id',info.id)
+          response.cookie('user_name',info.user_name)
+          response.cookie('password',info.password)
+          response.cookie('login_status',"true")
+          response.redirect('/index');
+        }else{
+          response.render("index/duplicateuser")
+        }
+      })
+    };
 
   let newevent = (request, response) => {
     var dataSet = {

@@ -6,11 +6,17 @@ class Home extends React.Component {
   render() {
     if (this.props.cookies.password){
       if (this.props.cookies.password == this.props.data[0].password){
-
+        var imgurl = this.props.data[0].profile_pic
         var displayInfo =
-        <div class="articlewriteup" style={{textAlign:"center"}}>
+        <div class="profilewriteup" style={{textAlign:"center"}}>
+        <div>
+        <h3>Your profile details</h3>
+        <div class="userdetails">
         <p>User ID: {this.props.data[0].id}</p>
         <p>Username: {this.props.data[0].user_name}</p>
+        </div>
+        </div>
+        <div id="profile-picture" style={{backgroundImage: "URL("+"'"+imgurl+"'"+")"}}></div>
         </div>
 
         if (this.props.data[0].event_name){

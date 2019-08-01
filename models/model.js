@@ -54,7 +54,7 @@ module.exports = (dbPoolInstance) => {
   let profile = (info,callback) => {
     // SELECT users.id, users.user_name, users.password, articles.title, articles.content FROM users LEFT OUTER JOIN userarticles ON (users.id = userarticles.user_id) LEFT OUTER JOIN articles on (userarticles.article_id = articles.id) WHERE users.id=+info.id;
     // SELECT users.id, users.user_name, users.password, articles.title, articles.content FROM users INNER JOIN userarticles ON (users.id = userarticles.user_id) INNER JOIN articles on (userarticles.article_id = articles.id) WHERE users.id='+info.id
-    let query = 'SELECT users.id, users.user_name, users.password, eventinfo.id AS eid, eventinfo.event_name, eventinfo.event_description, eventinfo.created_at, eventinfo.start_date FROM users LEFT OUTER JOIN signups ON (users.id = signups.user_id) LEFT OUTER JOIN eventinfo on (signups.event_id = eventinfo.id) WHERE users.id='+info.id;
+    let query = 'SELECT users.profile_pic, users.id, users.user_name, users.password, eventinfo.id AS eid, eventinfo.event_name, eventinfo.event_description, eventinfo.created_at, eventinfo.start_date FROM users LEFT OUTER JOIN signups ON (users.id = signups.user_id) LEFT OUTER JOIN eventinfo on (signups.event_id = eventinfo.id) WHERE users.id='+info.id;
     dbPoolInstance.query(query,(error, queryResult) => {
       if( error ){
         callback(error, null);
@@ -69,8 +69,12 @@ module.exports = (dbPoolInstance) => {
   };
 
   let register = (info,callback) => {
-    let query = 'INSERT INTO users (user_name, password) SELECT $1,$2 WHERE NOT EXISTS (SELECT * FROM users WHERE user_name=$1) RETURNING *';
-    let values = [info.user_name, info.password]
+    var newFilePath = ''
+    if (info.file){
+      newFilePath = info.file.path.replace('public/', '');
+    }
+    let query = 'INSERT INTO users (user_name, password, profile_pic) SELECT $1,$2,$3 WHERE NOT EXISTS (SELECT * FROM users WHERE user_name=$1) RETURNING *';
+    let values = [info.body.user_name, info.body.password, newFilePath]
     dbPoolInstance.query(query,values,(error, queryResult) => {
       if( error ){
         callback(error, null);
