@@ -121,12 +121,13 @@ module.exports = (db) => {
   };
 
   let eventpage = (request, response) => {
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~should run once~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     db.object.eventpage(request.params.id,request.cookies,(error,info)=>{
       var dataSet = {
         data: info,
         cookies: request.cookies
       }
-      console.log(info)
+      // response.send("works!")
       response.render('index/eventpage',dataSet);
     })
   };
@@ -162,14 +163,14 @@ module.exports = (db) => {
   };
 
   let posteventphotos = (request, response, next) => {
-    console.log(request.file)
-    const file = request.file
+    const file = request.files
     var requestdata = {
-      file: request.file,
+      file: request.files,
       body: request.body
     }
     db.object.posteventphotos(requestdata,(error,info)=>{
-      response.send("works!")
+      var redirectLink = '/event/'+request.body.eid
+      response.redirect(redirectLink)
     })
   };
 

@@ -41,3 +41,11 @@ CREATE TABLE IF NOT EXISTS comments (
   comment TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- database of eventphotos linked to each event
+CREATE TABLE IF NOT EXISTS eventphotos (
+  id SERIAL PRIMARY KEY,
+  event_id INTEGER,
+  event_photos TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);

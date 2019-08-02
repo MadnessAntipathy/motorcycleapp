@@ -6,6 +6,8 @@ var Commentcard = require("../component/component-comment-card.jsx")
 
 class Home extends React.Component {
   render() {
+    // console.log("this query result")
+    // console.log(this.props.data.queryResult)
     if (this.props.data.queryResult){
       var displayInfo = this.props.data.queryResult.map((obj)=>{
         if (this.props.data.queryRes.length > 0){
@@ -31,7 +33,6 @@ class Home extends React.Component {
       <button type="button" id="submitcomment">Submit comment</button>
       </div>
 
-
     }else{
       var alreadySignedUp = null
       var addComments = <p>Hey, you need to log in to post comments!</p>
@@ -53,8 +54,31 @@ class Home extends React.Component {
       })
     }
 
-    var data = JSON.stringify(this.props.data.queryResult)
-    var cookies = JSON.stringify(this.props.cookies)
+
+    var carousel =
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+
+
+
+    var data = JSON.stringify(this.props.data.queryResult);
+    var cookies = JSON.stringify(this.props.cookies);
 
     return (
       <Layout cookies={this.props.cookies}>
@@ -68,13 +92,34 @@ class Home extends React.Component {
           <div id="photogallery">
             <div>
               <div class="articlewriteup" style={{textAlign:"center"}}>
-              <form action="/register" enctype="multipart/form-data" method="post">
+              <form action="/eventphotos" enctype="multipart/form-data" method="post">
+              <input type="hidden" name="eid"value={this.props.data.queryResult[0].eid}/>
               <input type="file" name="photogallery" multiple/>
               <input type="submit" value="Submit event photos"/>
               </form>
               </div>
             </div>
           </div>
+
+
+          <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+
+            </ol>
+            <div class="carousel-inner">
+
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+
+
 
 
           <div class="commentsbox">
@@ -119,3 +164,19 @@ module.exports = Home;
 // {this.props.data.event_route}<br/><br/>
 // {this.props.data.event_description}<br/><br/>
 // {this.props.data.created_at}<br/><br/>
+
+
+//
+// <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+// <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+// <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+
+// <div class="carousel-item active">
+//   <img class="d-block w-100" src="..." alt="First slide"/>
+// </div>
+// <div class="carousel-item">
+//   <img class="d-block w-100" src="..." alt="Second slide"/>
+// </div>
+// <div class="carousel-item">
+//   <img class="d-block w-100" src="..." alt="Third slide"/>
+// </div>

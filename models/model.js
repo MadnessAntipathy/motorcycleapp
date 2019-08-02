@@ -182,7 +182,6 @@ module.exports = (dbPoolInstance) => {
 
   let addcomment = (info,callback) => {
     let data = JSON.parse(info.data)
-    console.log(data)
     let query = 'INSERT INTO comments (user_id, event_id, comment) VALUES ($1,$2,$3)'
     let values = [data.cookies, data.data, data.comment]
     dbPoolInstance.query(query,values,(error, queryResult) => {
@@ -199,7 +198,15 @@ module.exports = (dbPoolInstance) => {
   };
 
   let posteventphotos = (info, callback) => {
-    console.log(info)
+    for (var i = 0; i < info.file.length; i++){
+      console.log(info)
+      let query = 'INSERT INTO eventphotos (event_id,event_photos) VALUES ($1,$2)'
+      let values = [info.body.eid, info.file[i].path]
+      dbPoolInstance.query(query,values,(error, queryResult) => {
+
+      });
+    }
+    callback(null,null)
   }
 
   return {
