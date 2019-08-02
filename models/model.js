@@ -198,15 +198,28 @@ module.exports = (dbPoolInstance) => {
   };
 
   let posteventphotos = (info, callback) => {
+
     for (var i = 0; i < info.file.length; i++){
-      console.log(info)
+      var newFilePath = info.file[i].path.replace('public/', '');
       let query = 'INSERT INTO eventphotos (event_id,event_photos) VALUES ($1,$2)'
-      let values = [info.body.eid, info.file[i].path]
+      let values = [info.body.eid, newFilePath]
       dbPoolInstance.query(query,values,(error, queryResult) => {
 
       });
     }
     callback(null,null)
+  }
+
+  let getgallery = (info, callback)=>{
+    let query = 'SELECT * FROM eventphotos WHERE event_id='+info
+    dbPoolInstance.query(query,(error, queryResult)=>{
+      if (queryResult.rows.length > 0){
+        callback(null, queryResult.rows)
+      }else {
+        var fillerArray = []
+        callback(null, fillerArray)
+      }
+    })
   }
 
   return {
@@ -219,5 +232,6 @@ module.exports = (dbPoolInstance) => {
     signup,
     addcomment,
     posteventphotos,
+    getgallery,
   };
 };

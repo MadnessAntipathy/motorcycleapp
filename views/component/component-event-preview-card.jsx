@@ -9,8 +9,10 @@ class Eventpreviewcard extends React.Component {
 
       <div class="articlewriteup" >
       <a href={eventLink} class="eventcards">
-        <p>Event Name: {this.props.event_name}</p>
-        <p>Event Description: {this.props.event_description}</p>
+        <h2>Event Name: {this.props.event_name}</h2>
+        <div id="eventdescription">
+        <p>Event Description: {this.props.event_description.slice(0,150)}...</p>
+        </div>
         <p>By: {this.props.user_name}</p>
         <p>Start date: {this.props.start_date}</p>
       </a>

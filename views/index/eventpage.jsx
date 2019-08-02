@@ -33,9 +33,25 @@ class Home extends React.Component {
       <button type="button" id="submitcomment">Submit comment</button>
       </div>
 
+      var addPhotos =
+      <div id="photogallery">
+        <div>
+          <div class="articlewriteup" style={{textAlign:"center"}}>
+          <form action="/eventphotos" enctype="multipart/form-data" method="post">
+          <input type="hidden" name="eid"value={this.props.data.queryResult[0].eid}/>
+          <input type="file" name="photogallery" multiple/>
+          <input type="submit" value="Submit event photos"/>
+          </form>
+          </div>
+        </div>
+      </div>
+
+
+
     }else{
       var alreadySignedUp = null
-      var addComments = <p>Hey, you need to log in to post comments!</p>
+      var addComments = <p>Hey, you need to log in to post comments and submit event photos!</p>
+      var addPhotos = ""
     }
 
     if (this.props.data.result){
@@ -54,28 +70,34 @@ class Home extends React.Component {
       })
     }
 
+    if (this.props.galleryinfo.length > 0){
+      let count = 0
+      let firstItem = true
+      var displayPhotos = this.props.galleryinfo.map((obj)=>{
+        var imgurl = "../"+obj.event_photos
+        var slideText = "Slide"+count
+        count+=1
+        if (firstItem){
+          firstItem = false
 
-    var carousel =
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-      <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-      </ol>
-      <div class="carousel-inner">
-
-      </div>
-      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-
-
+          return <div class="carousel-item active"><div class="carrr" style={{backgroundImage: "URL("+"'"+imgurl+"'"+")"}}></div></div>
+        }else {
+          return <div class="carousel-item"><div class="carrr" style={{backgroundImage: "URL("+"'"+imgurl+"'"+")"}}></div></div>
+        }
+      });
+      count = 0
+      firstItem = true
+      var displayPhotoLink = this.props.galleryinfo.map((obj)=>{
+        if (firstItem){
+          firstItem = false
+          count+=1
+          return <li data-target="#carouselExampleIndicators" data-slide-to={count} class="active"></li>
+        }else {
+          count+=1
+          return <li data-target="#carouselExampleIndicators" data-slide-to={count}></li>
+        }
+      })
+    }
 
     var data = JSON.stringify(this.props.data.queryResult);
     var cookies = JSON.stringify(this.props.cookies);
@@ -89,24 +111,18 @@ class Home extends React.Component {
           </div>
 
 
-          <div id="photogallery">
-            <div>
-              <div class="articlewriteup" style={{textAlign:"center"}}>
-              <form action="/eventphotos" enctype="multipart/form-data" method="post">
-              <input type="hidden" name="eid"value={this.props.data.queryResult[0].eid}/>
-              <input type="file" name="photogallery" multiple/>
-              <input type="submit" value="Submit event photos"/>
-              </form>
-              </div>
-            </div>
-          </div>
+
 
 
           <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
 
+            {displayPhotoLink}
+
             </ol>
             <div class="carousel-inner">
+
+            {displayPhotos}
 
             </div>
             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -118,8 +134,7 @@ class Home extends React.Component {
               <span class="sr-only">Next</span>
             </a>
           </div>
-
-
+          {addPhotos}
 
 
           <div class="commentsbox">

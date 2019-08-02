@@ -1,5 +1,4 @@
 body {
-  /* background-color: yellow */
   background-image: url("/images/motorcyclebackground.jpg");
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -10,15 +9,29 @@ body {
 
 video{
   opacity: 1;
-  /* right: 0;
-  bottom: 0; */
   overflow: hidden;
   position: fixed;
   min-width: 100%;
   max-width: 100%;
-  /* top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%); */
+}
+
+#eventdescription {
+  width: 80%;
+  margin: auto;
+  text-align: justify;
+}
+
+.carrr {
+  width: 80%;
+  margin: auto;
+  border-radius: 25px;
+  background-size: cover;
+  background-position: center;
+}
+.carrr:after{
+  content: "";
+  display: block;
+  padding-bottom: 66.6666666666666%;
 }
 
 .welcometext {
@@ -102,15 +115,6 @@ video{
   margin: 50px 0 0 20px;
 }
 
-/* #commentid {
-  display:block;
-  margin: 0 auto;
-}
-
-#submitcomment {
-  text-align: center;
-} */
-
 .commentcards {
   border-radius: 25px;
   width: 400px;
@@ -173,7 +177,6 @@ ul {
 
 @media (max-width:600px){
   body {
-    /* background-color: red */
     background-image: url("/images/motorcyclekidbackground.jpg");
   }
   .articlewriteup {

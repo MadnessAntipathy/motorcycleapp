@@ -114,7 +114,9 @@ module.exports = (db) => {
   };
 
   let postevent = (request, response) => {
+    console.log(request.body)
     db.object.postevent(request.body,request.cookies,(error,info)=>{
+      console.log(info)
       var redirectLink = '/event/'+info[0].id
       response.redirect(redirectLink);
     })
@@ -122,13 +124,16 @@ module.exports = (db) => {
 
   let eventpage = (request, response) => {
     console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~should run once~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    db.object.eventpage(request.params.id,request.cookies,(error,info)=>{
-      var dataSet = {
-        data: info,
-        cookies: request.cookies
-      }
-      // response.send("works!")
-      response.render('index/eventpage',dataSet);
+    db.object.eventpage(request.params.id,request.cookies,(error1,info1)=>{
+      db.object.getgallery(request.params.id,(error2,info2)=>{
+        var dataSet = {
+          data: info1,
+          cookies: request.cookies,
+          galleryinfo: info2
+        }
+        console.log(info2)
+        response.render('index/eventpage',dataSet);
+      })
     })
   };
 
