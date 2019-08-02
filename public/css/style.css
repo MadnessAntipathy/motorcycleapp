@@ -53,6 +53,19 @@ video{
   border-radius: 25px;
 }
 
+.eventwriteup {
+  color: rgba(255,255,255,1);
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: rgba(10,10,10,0.8);
+  border-radius: 25px;
+  width: 80%;
+  margin:auto;
+}
+
+
 .profilewriteup {
   color: rgba(255,255,255,1);
   margin: 50px auto;
@@ -85,6 +98,8 @@ video{
 .signups {
   max-width: 100%;
 }
+
+
 
 .addcommentsbox{
   border-radius: 25px;

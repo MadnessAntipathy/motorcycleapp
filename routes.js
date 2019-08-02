@@ -51,4 +51,6 @@ module.exports = (app, allModels) => {
   app.post('/index', objectControllerCallbacks.login);
   app.post('/logout', objectControllerCallbacks.logout);
   app.post('/addcomment', objectControllerCallbacks.addcomment)
+  app.get('/edit/event/:id', objectControllerCallbacks.editevent)
+  app.post('/edit/event/:id', objectControllerCallbacks.updateevent)
 };

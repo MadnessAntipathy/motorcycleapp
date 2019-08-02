@@ -222,6 +222,21 @@ module.exports = (dbPoolInstance) => {
     })
   }
 
+  let editevent = (info, callback)=>{
+    let query = 'SELECT * FROM eventinfo WHERE id='+info
+    dbPoolInstance.query(query,(error, queryResult)=>{
+      callback(null, queryResult.rows)
+    })
+  }
+
+  let updateevent = (info,id, callback)=>{
+    let query = 'UPDATE ONLY eventinfo SET event_name=$1,start_date=$2,end_date=$3,duration=$4,event_route=$5,event_description=$6 WHERE id=$7'
+    let values = [info.event_name,info.start_date,info.end_date,info.duration,info.event_route,info.event_description,id]
+    dbPoolInstance.query(query,values,(error, queryResult)=>{
+      callback(null, null)
+    })
+  }
+
   return {
     login,
     profile,
@@ -233,5 +248,7 @@ module.exports = (dbPoolInstance) => {
     addcomment,
     posteventphotos,
     getgallery,
+    editevent,
+    updateevent,
   };
 };

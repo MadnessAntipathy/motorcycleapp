@@ -179,6 +179,22 @@ module.exports = (db) => {
     })
   };
 
+  let editevent = (request, response)=>{
+    db.object.editevent(request.params.id,(error,info)=>{
+      var dataSet = {
+        data:info,
+        cookies: request.cookies
+      }
+      response.render('index/editevent',dataSet)
+    })
+  }
+
+  let updateevent = (request, response)=>{
+    db.object.updateevent(request.body,request.params.id,(error,info)=>{
+      var redirectLink = "/event/"+request.params.id
+      response.redirect(redirectLink)
+    })
+  }
 
   /**
    * ===========================================
@@ -200,6 +216,8 @@ module.exports = (db) => {
     signup: signup,
     addcomment: addcomment,
     posteventphotos:posteventphotos,
+    editevent:editevent,
+    updateevent:updateevent,
   };
 
 }

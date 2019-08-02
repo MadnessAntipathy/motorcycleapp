@@ -7,16 +7,27 @@ var Commentcard = require("../component/component-comment-card.jsx")
 class Home extends React.Component {
   render() {
     // console.log("this query result")
-    // console.log(this.props.data.queryResult)
+    console.log(this.props.data.queryResult)
+    console.log(this.props.cookies)
+
     if (this.props.data.queryResult){
+
+      if (this.props.cookies.id == this.props.data.queryResult[0].id){
+        var editInfo = <input type="submit" value="Edit event details"/>
+      }else{
+        var editInfo = ''
+      }
+
       var displayInfo = this.props.data.queryResult.map((obj)=>{
         if (this.props.data.queryRes.length > 0){
           var loggedInStatus = <button id="btn">Withdraw from the ride!</button>
         }else{
           var loggedInStatus = <button id="btn">Sign up for the ride!</button>
         }
-        return <Eventcard cookies={this.props.cookies} loggedInStatus={loggedInStatus} event_id={obj.eid} user_name={obj.user_name} event_name ={obj.event_name} start_date={obj.start_date} end_date={obj.end_date} duration={obj.duration} event_route={obj.event_route} event_description={obj.event_description} created_at={obj.e_created_at}></Eventcard>
+        return <Eventcard editinfo={editInfo} cookies={this.props.cookies} loggedInStatus={loggedInStatus} event_id={obj.eid} user_name={obj.user_name} event_name ={obj.event_name} start_date={obj.start_date} end_date={obj.end_date} duration={obj.duration} event_route={obj.event_route} event_description={obj.event_description} created_at={obj.e_created_at}></Eventcard>
       })
+
+
     }
 
     if (this.props.cookies.login_status === "true"){
@@ -45,6 +56,8 @@ class Home extends React.Component {
           </div>
         </div>
       </div>
+
+
 
 
 
