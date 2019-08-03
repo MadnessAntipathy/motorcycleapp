@@ -14,6 +14,8 @@ class Home extends React.Component {
       <input type="text" name="user_name"/><br/><br/>
       <label>Choose your password</label><br/>
       <input type="text" name="password"/><br/><br/>
+      <label>Share something about yourself</label><br/>
+      <textarea type="text" rows="4" cols="50" name="about"/><br/><br/>
       <input type="submit" value="Create new user"/>
       </form>
       </div>

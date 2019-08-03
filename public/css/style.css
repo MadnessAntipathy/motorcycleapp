@@ -65,7 +65,6 @@ video{
   margin:auto;
 }
 
-
 .profilewriteup {
   color: rgba(255,255,255,1);
   margin: 50px auto;
@@ -75,12 +74,20 @@ video{
   background-color: rgba(10,10,10,0.8);
   border-radius: 25px;
   display:flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
+
 }
 .userdetails {
   text-align: left;
 }
+
+#profilenpic {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 
 #eventpage-container{
   display: flex;
@@ -184,7 +191,6 @@ a:link{
   background-size: 100%;
   background-repeat: no-repeat;
 }
-
 
 ul {
   list-style-type: none;

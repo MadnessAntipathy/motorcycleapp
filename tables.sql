@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
   user_name TEXT,
   password TEXT,
   profile_pic TEXT,
+  about TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 -- database of events created by users, links user to the event they created

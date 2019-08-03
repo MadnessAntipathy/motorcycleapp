@@ -196,6 +196,33 @@ module.exports = (db) => {
     })
   }
 
+  let editprofile = (request, response)=>{
+    db.object.editprofile(request.query.id,(error,info)=>{
+      var dataSet = {
+        data:info,
+        cookies: request.cookies
+      }
+      response.render('index/editprofile', dataSet)
+    })
+  }
+
+  let updateprofile = (request, response)=>{
+    db.object.updateprofile(request.body,request.cookies.id,(error,info)=>{
+      response.redirect('/profile')
+    })
+  }
+
+  let updateprofilephoto = (request, response)=>{
+    const file = request.file
+    var requestdata = {
+      file: request.file,
+      body: request.body
+    }
+    db.object.updateprofilephoto(requestdata,request.cookies.id,(error,info)=>{
+    })
+    response.redirect('/profile')
+  }
+
   /**
    * ===========================================
    * Export controller functions as a module
@@ -218,6 +245,9 @@ module.exports = (db) => {
     posteventphotos:posteventphotos,
     editevent:editevent,
     updateevent:updateevent,
+    editprofile:editprofile,
+    updateprofile:updateprofile,
+    updateprofilephoto:updateprofilephoto,
   };
 
 }

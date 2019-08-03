@@ -42,7 +42,12 @@ module.exports = (app, allModels) => {
   app.get('/events', objectControllerCallbacks.allevents);
   app.post('/eventphotos', upload.array('photogallery',5), objectControllerCallbacks.posteventphotos);
   app.get('/event/:id', objectControllerCallbacks.eventpage);
+
   app.get('/profile', objectControllerCallbacks.profile);
+  app.get('/edit/profile', objectControllerCallbacks.editprofile);
+  app.post('/edit/profile',upload.none(), objectControllerCallbacks.updateprofile);
+  app.post('/edit/profilephoto',upload.single('profilephoto'), objectControllerCallbacks.updateprofilephoto);
+
   app.get('/newevent', objectControllerCallbacks.newevent);
   app.post('/newevent', objectControllerCallbacks.postevent);
   app.get('/register', objectControllerCallbacks.newuser);

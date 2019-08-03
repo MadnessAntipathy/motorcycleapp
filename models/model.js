@@ -54,7 +54,7 @@ module.exports = (dbPoolInstance) => {
   let profile = (info,callback) => {
     // SELECT users.id, users.user_name, users.password, articles.title, articles.content FROM users LEFT OUTER JOIN userarticles ON (users.id = userarticles.user_id) LEFT OUTER JOIN articles on (userarticles.article_id = articles.id) WHERE users.id=+info.id;
     // SELECT users.id, users.user_name, users.password, articles.title, articles.content FROM users INNER JOIN userarticles ON (users.id = userarticles.user_id) INNER JOIN articles on (userarticles.article_id = articles.id) WHERE users.id='+info.id
-    let query = 'SELECT users.profile_pic, users.id, users.user_name, users.password, eventinfo.id AS eid, eventinfo.event_name, eventinfo.event_description, eventinfo.created_at, eventinfo.start_date FROM users LEFT OUTER JOIN signups ON (users.id = signups.user_id) LEFT OUTER JOIN eventinfo on (signups.event_id = eventinfo.id) WHERE users.id='+info.id;
+    let query = 'SELECT users.profile_pic,users.about, users.id, users.user_name, users.password, eventinfo.id AS eid, eventinfo.event_name, eventinfo.event_description, eventinfo.created_at, eventinfo.start_date FROM users LEFT OUTER JOIN signups ON (users.id = signups.user_id) LEFT OUTER JOIN eventinfo on (signups.event_id = eventinfo.id) WHERE users.id='+info.id;
     dbPoolInstance.query(query,(error, queryResult) => {
       if( error ){
         callback(error, null);
@@ -73,8 +73,8 @@ module.exports = (dbPoolInstance) => {
     if (info.file){
       newFilePath = info.file.path.replace('public/', '');
     }
-    let query = 'INSERT INTO users (user_name, password, profile_pic) SELECT $1,$2,$3 WHERE NOT EXISTS (SELECT * FROM users WHERE user_name=$1) RETURNING *';
-    let values = [info.body.user_name, info.body.password, newFilePath]
+    let query = 'INSERT INTO users (user_name, password, profile_pic, about) SELECT $1,$2,$3,$4 WHERE NOT EXISTS (SELECT * FROM users WHERE user_name=$1) RETURNING *';
+    let values = [info.body.user_name, info.body.password, newFilePath, info.body.about]
     dbPoolInstance.query(query,values,(error, queryResult) => {
       if( error ){
         callback(error, null);
@@ -237,6 +237,37 @@ module.exports = (dbPoolInstance) => {
     })
   }
 
+  let editprofile = (info, callback)=>{
+    console.log(info)
+    let query = 'SELECT * from users WHERE id='+info
+    dbPoolInstance.query(query,(error,result)=>{
+      callback(null,result.rows)
+    })
+  }
+
+  let updateprofile = (info,id, callback)=>{
+    let query = 'UPDATE ONLY users SET about=$1 WHERE id=$2'
+    let values = [info.about,id]
+    dbPoolInstance.query(query,values,(error,result)=>{
+      callback(null,null)
+    })
+  }
+
+  let updateprofilephoto = (info,id,callback) => {
+    console.log(info)
+    var newFilePath = ''
+    if (info.file){
+      newFilePath = info.file.path.replace('public/', '');
+    }
+    let query = 'UPDATE ONLY users SET profile_pic=$1 WHERE id=$2';
+    let values = [newFilePath, id]
+    dbPoolInstance.query(query,values,(error, queryResult) => {
+      if( error ){
+        callback(error, null);
+      }
+    });
+  };
+
   return {
     login,
     profile,
@@ -250,5 +281,8 @@ module.exports = (dbPoolInstance) => {
     getgallery,
     editevent,
     updateevent,
+    editprofile,
+    updateprofile,
+    updateprofilephoto,
   };
 };

@@ -13,16 +13,16 @@ class Home extends React.Component {
     if (this.props.data.queryResult){
 
       if (this.props.cookies.id == this.props.data.queryResult[0].id){
-        var editInfo = <input type="submit" value="Edit event details"/>
+        var editInfo = <button class="btn btn-primary" type="submit" value="">Edit event details</button>
       }else{
         var editInfo = ''
       }
 
       var displayInfo = this.props.data.queryResult.map((obj)=>{
         if (this.props.data.queryRes.length > 0){
-          var loggedInStatus = <button id="btn">Withdraw from the ride!</button>
+          var loggedInStatus = <button class="btn btn-primary" id="btn">Withdraw from the ride!</button>
         }else{
-          var loggedInStatus = <button id="btn">Sign up for the ride!</button>
+          var loggedInStatus = <button class="btn btn-primary" id="btn">Sign up for the ride!</button>
         }
         return <Eventcard editinfo={editInfo} cookies={this.props.cookies} loggedInStatus={loggedInStatus} event_id={obj.eid} user_name={obj.user_name} event_name ={obj.event_name} start_date={obj.start_date} end_date={obj.end_date} duration={obj.duration} event_route={obj.event_route} event_description={obj.event_description} created_at={obj.e_created_at}></Eventcard>
       })
@@ -41,7 +41,7 @@ class Home extends React.Component {
       <div class="addcommentsbox">
       <p>Leave a comment</p>
       <textarea id="commentid" name="comment" rows="4" cols="80"></textarea><br/>
-      <button type="button" id="submitcomment">Submit comment</button>
+      <button class="btn btn-primary" type="button" id="submitcomment">Submit comment</button>
       </div>
 
       var addPhotos =
@@ -50,8 +50,8 @@ class Home extends React.Component {
           <div class="articlewriteup" style={{textAlign:"center"}}>
           <form action="/eventphotos" enctype="multipart/form-data" method="post">
           <input type="hidden" name="eid"value={this.props.data.queryResult[0].eid}/>
-          <input type="file" name="photogallery" multiple/>
-          <input type="submit" value="Submit event photos"/>
+          <input type="file" name="photogallery" multiple/><br/>
+          <button class="btn btn-primary" type="submit" value="">Submit event photos</button>
           </form>
           </div>
         </div>
