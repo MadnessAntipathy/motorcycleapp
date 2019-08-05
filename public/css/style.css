@@ -18,7 +18,45 @@ video{
 #eventdescription {
   width: 80%;
   margin: auto;
-  text-align: justify;
+  text-align: center;
+}
+
+#createdevents{
+  column-count:2;
+  column-fill:auto;
+}
+
+.createdeventsgroup {
+  border: 1px solid white;
+  border-radius: 25px;
+  width: 80%;
+  margin: auto;
+}
+
+.dropdown:hover .dropdown-menu{
+  display: block;
+}
+
+.dropdown-menu{
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+
+
+
+.field-selector {
+  padding: 10px;
+  border: 1px solid white;
+  border-radius: 25px;
+  min-width: 250px;
+  max-width: 400px;
+  text-align: center;
+  margin: auto;
 }
 
 .carrr {
@@ -155,19 +193,20 @@ ul{
   text-decoration: none;
   color: rgba(255,255,255,1);
 }
-a:active{
+
+a:active:not(.navbarstuff){
   text-decoration: none;
   color: rgba(255,255,255,1);
 }
-a.eventcards:hover{
+a.eventcards:hover:not(.navbarstuff){
   text-decoration: none;
   color: rgba(255,255,255,1);
 }
-a:visited{
+a:visited:not(.navbarstuff){
   text-decoration: none;
   color: rgba(255,255,255,1);
 }
-a:link{
+a:link:not(.navbarstuff){
   text-decoration: none;
   color: rgba(255,255,255,1);
 }

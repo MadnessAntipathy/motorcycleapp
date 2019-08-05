@@ -2,7 +2,6 @@ var React = require("react");
 
 class Articlecard extends React.Component {
   render() {
-    console.log(this.props.types);
     return (
       <div class="articlewriteup">
         <h3 style={{textAlign:"center"}}>{this.props.title}</h3>

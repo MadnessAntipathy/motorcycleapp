@@ -69,11 +69,14 @@ module.exports = (db) => {
   let profile = (request, response) => {
 
     db.object.profile(request.cookies,(error,info)=>{
-      var dataSet = {
-        data: info,
-        cookies: request.cookies
-      }
-      response.render('index/profile',dataSet);
+      db.object.getpastcreatedevents(request.cookies,(error1,info1)=>{
+        var dataSet = {
+          data: info,
+          cookies: request.cookies,
+          createdevents: info1
+        }
+        response.render('index/profile',dataSet);
+      })
     })
   }
 
@@ -82,7 +85,6 @@ module.exports = (db) => {
   };
 
   let register = (request, response, next)=>{
-      console.log(request.file)
       const file = request.file
       // if (!file) {
       //   const error = new Error('Please upload a file')
@@ -114,16 +116,13 @@ module.exports = (db) => {
   };
 
   let postevent = (request, response) => {
-    console.log(request.body)
     db.object.postevent(request.body,request.cookies,(error,info)=>{
-      console.log(info)
       var redirectLink = '/event/'+info[0].id
       response.redirect(redirectLink);
     })
   };
 
   let eventpage = (request, response) => {
-    console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~should run once~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     db.object.eventpage(request.params.id,request.cookies,(error1,info1)=>{
       db.object.getgallery(request.params.id,(error2,info2)=>{
         var dataSet = {
@@ -131,7 +130,6 @@ module.exports = (db) => {
           cookies: request.cookies,
           galleryinfo: info2
         }
-        console.log(info2)
         response.render('index/eventpage',dataSet);
       })
     })
@@ -219,8 +217,21 @@ module.exports = (db) => {
       body: request.body
     }
     db.object.updateprofilephoto(requestdata,request.cookies.id,(error,info)=>{
+      response.redirect('/profile')
     })
-    response.redirect('/profile')
+  }
+
+  let userpage = (request,response)=>{
+    db.object.userpage(request.params.id,(error, info)=>{
+      db.object.getuserevents(request.params.id, (error1,info1)=>{
+        var dataSet = {
+          data: info,
+          events: info1,
+          cookies: request.cookies
+        }
+        response.render('index/user',dataSet)
+      })
+    })
   }
 
   /**
@@ -248,6 +259,7 @@ module.exports = (db) => {
     editprofile:editprofile,
     updateprofile:updateprofile,
     updateprofilephoto:updateprofilephoto,
+    userpage:userpage,
   };
 
 }

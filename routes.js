@@ -43,6 +43,8 @@ module.exports = (app, allModels) => {
   app.post('/eventphotos', upload.array('photogallery',5), objectControllerCallbacks.posteventphotos);
   app.get('/event/:id', objectControllerCallbacks.eventpage);
 
+  app.get('/users/:id', objectControllerCallbacks.userpage)
+
   app.get('/profile', objectControllerCallbacks.profile);
   app.get('/edit/profile', objectControllerCallbacks.editprofile);
   app.post('/edit/profile',upload.none(), objectControllerCallbacks.updateprofile);

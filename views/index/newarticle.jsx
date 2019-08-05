@@ -4,7 +4,6 @@ var Layout = require("../component/layout.jsx")
 
 class Home extends React.Component {
   render() {
-    console.log(this.props.types);
     if (this.props.cookies.login_status === "true"){
       var form =
       <div class="articlewriteup" style={{textAlign:"center"}}>

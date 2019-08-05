@@ -10,17 +10,31 @@ class Home extends React.Component {
       <div class="articlewriteup" style={{textAlign:"center"}}>
       <form action="/newevent" method="post">
       <label>Event Name</label><br/>
-      <input type="text" name="event_name" placeholder="My event" required/><br/><br/>
+      <div class="field-selector">
+      <input type="text" name="event_name" placeholder="My event" required/>
+      </div><br/><br/>
       <label>Event Start Date</label><br/>
-      <input type="date" name="start_date" required/><br/><br/>
+      <div class="field-selector">
+      <input type="date" name="start_date" required/>
+      </div><br/><br/>
       <label>Event End Date</label><br/>
-      <input type="date" name="end_date" required/><br/><br/>
+      <div class="field-selector">
+      <input type="date" name="end_date" required/>
+      </div><br/><br/>
+      <label>Event Start Time</label><br/>
+      <div class="field-selector">
+      <input type="text" name="start_time" required/>
+      </div><br/><br/>
       <label>Event Duration</label><br/>
-      <input type="text" name="duration" placeholder="Hours" required/><br/><br/>
+      <div class="field-selector">
+      <input type="text" name="duration" placeholder="Hours" required/>
+      </div><br/><br/>
       <label>Event Route</label><br/>
-      <input type="text" name="event_route" placeholder="Google map link" required/><br/><br/>
+      <div class="field-selector">
+      <input type="text" name="event_route" placeholder="Google map link" required/>
+      </div><br/><br/>
       <label>Event Description</label><br/>
-      <textarea type="text" rows="4" cols="50" name="event_description" placeholder="Describe your event" required/><br/><br/>
+      <textarea type="text" rows="4" cols="50" name="event_description" placeholder="Describe your event. Where to meet... Who to contact..." required/><br/><br/>
       <input type="submit" value="Create new event"/>
       </form>
       </div>

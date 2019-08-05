@@ -25,14 +25,23 @@ class Articlecard extends React.Component {
           </div>
           <div>
             <p>Event Duration: {this.props.duration}</p>
-            <p>By: {this.props.user_name}</p>
+            <p>Start Time: {this.props.start_time}</p>
           </div>
+
+        </div>
+        <div>
+          <p>By: {this.props.user_name}</p>
+        </div>
+        <div class="articlewriteup">
+          <p>Event Route:</p>
+          <div id={this.props.event_id}></div>
         </div>
 
-        <p>Event Route:</p>
-        <div id={this.props.event_id}></div>
-        <div id="eventdescription">
-        <p style={{textAlign:"center"}}>Event Description: {this.props.event_description}</p>
+        <div class="articlewriteup">
+          <div id="eventdescription">
+            <p style={{textAlign:"center"}}>Event Description:</p>
+            <p style={{textAlign:"justify"}}>{this.props.event_description}</p>
+          </div>
         </div>
 
         <p>{button}</p>

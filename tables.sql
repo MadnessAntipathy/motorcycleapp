@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS eventinfo (
   event_name TEXT,
   start_date TEXT,
   end_date TEXT,
+  start_time TEXT,
   duration TEXT,
   event_route TEXT,
   event_description TEXT,

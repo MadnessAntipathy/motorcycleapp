@@ -24,8 +24,8 @@ module.exports = (dbPoolInstance) => {
 
   let postevent = (info,cookies,callback) => {
     //insert statement here to update event table
-    let query = 'INSERT INTO eventinfo (event_name,start_date,end_date,duration,event_route,event_description) VALUES ($1,$2,$3,$4,$5,$6) RETURNING id';
-    let values = [info.event_name,info.start_date,info.end_date,info.duration,info.event_route,info.event_description]
+    let query = 'INSERT INTO eventinfo (event_name,start_date,end_date,duration,event_route,event_description,start_time) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING id';
+    let values = [info.event_name,info.start_date,info.end_date,info.duration,info.event_route,info.event_description,info.start_time]
     dbPoolInstance.query(query,values,(error, queryResult) => {
       if( error ){
         callback(error, null);
@@ -61,8 +61,6 @@ module.exports = (dbPoolInstance) => {
       }else{
         if( queryResult.rows.length > 0 ){
           callback(null, queryResult.rows);
-        }else{
-          callback(null, null);
         }
       }
     });
@@ -230,15 +228,14 @@ module.exports = (dbPoolInstance) => {
   }
 
   let updateevent = (info,id, callback)=>{
-    let query = 'UPDATE ONLY eventinfo SET event_name=$1,start_date=$2,end_date=$3,duration=$4,event_route=$5,event_description=$6 WHERE id=$7'
-    let values = [info.event_name,info.start_date,info.end_date,info.duration,info.event_route,info.event_description,id]
+    let query = 'UPDATE ONLY eventinfo SET event_name=$1,start_date=$2,end_date=$3,duration=$4,event_route=$5,event_description=$6,start_time=$7 WHERE id=$8'
+    let values = [info.event_name,info.start_date,info.end_date,info.duration,info.event_route,info.event_description,info.start_time,id]
     dbPoolInstance.query(query,values,(error, queryResult)=>{
       callback(null, null)
     })
   }
 
   let editprofile = (info, callback)=>{
-    console.log(info)
     let query = 'SELECT * from users WHERE id='+info
     dbPoolInstance.query(query,(error,result)=>{
       callback(null,result.rows)
@@ -254,7 +251,6 @@ module.exports = (dbPoolInstance) => {
   }
 
   let updateprofilephoto = (info,id,callback) => {
-    console.log(info)
     var newFilePath = ''
     if (info.file){
       newFilePath = info.file.path.replace('public/', '');
@@ -264,9 +260,32 @@ module.exports = (dbPoolInstance) => {
     dbPoolInstance.query(query,values,(error, queryResult) => {
       if( error ){
         callback(error, null);
+      }else{
+        callback(null, null);
       }
     });
   };
+
+  let getpastcreatedevents = (info,callback) =>{
+    let query = 'SELECT eventinfo.created_at, eventinfo.event_name, eventinfo.id FROM eventinfo INNER JOIN userevents ON (eventinfo.id=userevents.event_id) WHERE user_id='+info.id
+    dbPoolInstance.query(query,(error,result)=>{
+      callback(null,result.rows)
+    })
+  }
+
+  let userpage = (info,callback) =>{
+    let query = 'SELECT user_name, profile_pic, about FROM users WHERE id='+info
+    dbPoolInstance.query(query,(error,result)=>{
+      callback(null,result.rows)
+    })
+  }
+
+  let getuserevents = (info, callback)=>{
+    let query = 'SELECT eventinfo.id, eventinfo.event_name, eventinfo.event_description FROM eventinfo INNER JOIN signups ON (eventinfo.id=signups.event_id) WHERE signups.user_id='+info
+    dbPoolInstance.query(query,(error,result)=>{
+      callback(null,result.rows)
+    })
+  }
 
   return {
     login,
@@ -284,5 +303,8 @@ module.exports = (dbPoolInstance) => {
     editprofile,
     updateprofile,
     updateprofilephoto,
+    getpastcreatedevents,
+    userpage,
+    getuserevents,
   };
 };

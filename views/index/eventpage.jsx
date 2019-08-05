@@ -6,9 +6,6 @@ var Commentcard = require("../component/component-comment-card.jsx")
 
 class Home extends React.Component {
   render() {
-    // console.log("this query result")
-    console.log(this.props.data.queryResult)
-    console.log(this.props.cookies)
 
     if (this.props.data.queryResult){
 
@@ -24,7 +21,7 @@ class Home extends React.Component {
         }else{
           var loggedInStatus = <button class="btn btn-primary" id="btn">Sign up for the ride!</button>
         }
-        return <Eventcard editinfo={editInfo} cookies={this.props.cookies} loggedInStatus={loggedInStatus} event_id={obj.eid} user_name={obj.user_name} event_name ={obj.event_name} start_date={obj.start_date} end_date={obj.end_date} duration={obj.duration} event_route={obj.event_route} event_description={obj.event_description} created_at={obj.e_created_at}></Eventcard>
+        return <Eventcard editinfo={editInfo} cookies={this.props.cookies} loggedInStatus={loggedInStatus} event_id={obj.eid} user_name={obj.user_name} event_name ={obj.event_name} start_date={obj.start_date} start_time={obj.start_time} end_date={obj.end_date} duration={obj.duration} event_route={obj.event_route} event_description={obj.event_description} created_at={obj.e_created_at}></Eventcard>
       })
 
 
@@ -50,7 +47,9 @@ class Home extends React.Component {
           <div class="articlewriteup" style={{textAlign:"center"}}>
           <form action="/eventphotos" enctype="multipart/form-data" method="post">
           <input type="hidden" name="eid"value={this.props.data.queryResult[0].eid}/>
+          <div class="field-selector">
           <input type="file" name="photogallery" multiple/><br/>
+          </div>
           <button class="btn btn-primary" type="submit" value="">Submit event photos</button>
           </form>
           </div>
@@ -151,7 +150,7 @@ class Home extends React.Component {
 
 
           <div class="commentsbox">
-            <h3>Comments Box</h3>
+            <h3>Comments</h3>
             {addComments}
             <div id="commentsgohere">
             {comments}

@@ -1,5 +1,3 @@
-console.log("working!")
-
 var picchange =document.querySelector("#profile-picture")
 picchange.addEventListener ('mouseenter', function(){
   var button = document.createElement('button')
@@ -19,5 +17,4 @@ picchange.addEventListener ('mouseleave', function(){
 
 var submitdata = document.querySelector("#submitdata")
 submitdata.addEventListener('click',function(){
-  console.log('click!')
 })

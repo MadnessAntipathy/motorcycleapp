@@ -4,7 +4,6 @@ var Peventcard = require("../component/component-event-profile-preview.jsx")
 
 class Home extends React.Component {
   render() {
-    console.log(this.props.data)
 
 
 
@@ -12,7 +11,7 @@ class Home extends React.Component {
       if (this.props.cookies.password == this.props.data[0].password){
         var imgurl = this.props.data[0].profile_pic
         var displayInfo =
-        <div class="profilewriteup" style={{textAlign:"center"}}>
+        <div class="profilewriteup" id="displayinfo" style={{textAlign:"center"}}>
         <div id="profilenpic">
 
           <div class="col-sm-7">
@@ -58,6 +57,15 @@ class Home extends React.Component {
         }else{
           var displayPosts = <p>(Oops! It looks like you have not joined any events. Check out some events happening!)</p>
         }
+        if (this.props.createdevents){
+          var displayCreatedEvents = this.props.createdevents.map((obj)=>{
+            var eventLink="/event/"+obj.id
+            var year = obj.created_at.getFullYear()
+            var month = obj.created_at.getMonth()+1
+            var day = obj.created_at.getDay()
+            return <a href={eventLink}><div class="createdeventsgroup"><p>Event Name: {obj.event_name}</p><p>Created on {day}/{month}/{year}</p></div></a>
+          })
+        }
       }else {
         var displayInfo =
         <div class="articlewriteup" style={{textAlign:"center"}}>
@@ -65,6 +73,7 @@ class Home extends React.Component {
         </div>
         var displayPosts = ''
         var displayPast = ''
+        var displayCreatedEvents = ''
       }
     }else {
       var displayInfo =
@@ -73,19 +82,27 @@ class Home extends React.Component {
       </div>
       var displayPosts = ''
       var displayPast = ''
+      var displayCreatedEvents = ''
     }
 
     return (
       <Layout cookies={this.props.cookies}>
       {displayInfo}
       <div class="articlewriteup" style={{textAlign:"center"}}>
-      <h3>Here are the events you've joined!</h3>
+        <h3>Here are the past events you have created!</h3>
+        <div id="createdevents">
+          {displayCreatedEvents}
+        </div>
+      </div>
+      <div id="currentevents" class="articlewriteup" style={{textAlign:"center"}}>
+      <h3>Here are the events you are currently signed up for!</h3>
       {displayPosts}
       </div>
-      <div class="articlewriteup" style={{textAlign:"center"}}>
-      <h3>Here are your past events!</h3>
+      <div id="pastevents" class="articlewriteup" style={{textAlign:"center"}}>
+      <h3>Here are the past events you have joined!</h3>
       {displayPast}
       </div>
+      <div style={{textAlign:"center"}}><a href="#displayinfo"><button class="btn btn-primary">Back to top</button></a></div>
 
 
 

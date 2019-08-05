@@ -16,9 +16,24 @@ class Layout extends React.Component {
         var register = ""
 
         var profile =
-        <li class="nav-item">
-          <a class="nav-link" href="/profile">Your Profile <span class="sr-only">(current)</span></a>
+        <li class="nav-item dropdown">
+          <div>
+          <a class="nav-link dropdown-toggle" href="/profile" id="navbarDropdown" role="menu" aria-expanded="false">
+          Your Profile
+          </a>
+          </div>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item navbarstuff" href="/profile#createdevents">Your created Events</a>
+          <a class="dropdown-item navbarstuff" href="/profile#currentevents">Current Events Joined</a>
+          <a class="dropdown-item navbarstuff" href="/profile#pastevents">Past Events Joined</a>
+          </div>
         </li>
+
+
+        //
+        // <li class="nav-item">
+        //   <a class="nav-link" href="/profile">Your Profile <span class="sr-only">(current)</span></a>
+        // </li>
 
         var submitArticle =
         <li class="nav-item">
@@ -34,7 +49,7 @@ class Layout extends React.Component {
         var loginstatus =
         <form class="form-inline my-2 my-lg-0" action="/index" method="post">
           <input class="form-control mr-sm-2" type="search" name="username" placeholder="Username" aria-label="Search"/>
-          <input class="form-control mr-sm-2" type="search" name="password" placeholder="Password" aria-label="Search"/>
+          <input class="form-control mr-sm-2" type="password" name="password" placeholder="Password" aria-label="Search"/>
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
         </form>
 
@@ -63,7 +78,7 @@ class Layout extends React.Component {
         <body>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-transparent">
-          <a class="navbar-brand" href="/index">Ride On</a>
+          <span style={{fontWeight:"bold", fontSize:"30px", padding:"0 30px"}}>Ride On</span>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -76,8 +91,8 @@ class Layout extends React.Component {
               <li class="nav-item">
                 <a class="nav-link" href="/events">Events <span class="sr-only">(current)</span></a>
               </li>
-              {profile}
               {createEvent}
+              {profile}
             </ul>
             {loginstatus}
             {register}

@@ -16,13 +16,15 @@ class Home extends React.Component {
       <input type="date" name="start_date" value={this.props.data[0].start_date} required/><br/><br/>
       <label>Event End Date</label><br/>
       <input type="date" name="end_date" value={this.props.data[0].end_date} required/><br/><br/>
+      <label>Start Time</label><br/>
+      <input type="text" name="start_time" value={this.props.data[0].start_time} required/><br/><br/>
       <label>Event Duration</label><br/>
       <input type="text" name="duration" value={this.props.data[0].duration} required/><br/><br/>
       <label>Event Route</label><br/>
       <input type="text" name="event_route" value={this.props.data[0].event_route} placeholder="Google map link" required/><br/><br/>
       <label>Event Description</label><br/>
       <textarea type="text" rows="4" cols="50" name="event_description" value={this.props.data[0].event_description} required/><br/><br/>
-      <input type="submit" value="Create new event"/>
+      <button class="btn btn-primary" type="submit" value="">Update event</button>
       </form>
       </div>
       </Layout>
