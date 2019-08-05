@@ -36,6 +36,9 @@ module.exports = (app, allModels) => {
 
   // require the controller
   const objectControllerCallbacks = require('./controllers/controller')(allModels);
+  app.get ('/', (request,response)=>{
+    response.redirect('/home')
+  })
 
   app.get('/index', objectControllerCallbacks.index);
   app.get('/home', objectControllerCallbacks.home);
