@@ -35,7 +35,7 @@ if( process.env.DATABASE_URL ){
   configs = {
     user: 'marcus',
     host: '127.0.0.1',
-    
+    password: 'password',
     database: 'motorcycleapp',
     port: 5432
   };

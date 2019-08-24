@@ -240,9 +240,56 @@ ul {
     background-image: url("/images/motorcyclekidbackground.jpg");
   }
   .articlewriteup {
-    width: 500px;
+    width: 300px;
+
   }
   .registerbutton{
     display:inline-block;
+  }
+  .field-selector{
+    width: 200px;
+    overflow:hidden;
+  }
+  input{
+    width: 200px;
+  }
+  textarea{
+    width: 200px;
+  }
+  li{
+    list-style-type: none;
+  }
+  .profilewriteup{
+    width: 90%;
+    margin: 0 auto;
+  }
+  #profilenpic{
+    display:flex;
+    align-items: flex-start;
+  }
+  #profile-picture {
+    height: 100px;
+    width: 100px;
+    border-radius: 25px;
+    border: 1px solid rgba(255,255,255,0.5);
+    background-color: rgba(0,0,0,1);
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+  }
+  #eventpage-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  #displaycommentwrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  #signupcontainer {
+    max-width: 100%;
+    margin: 0 auto;
   }
 }
