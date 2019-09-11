@@ -19,7 +19,7 @@ function signUp (){
   var request = new XMLHttpRequest();
   request.addEventListener("load", responseHandler);
 
-  var url = "http://127.0.0.1:3000/signup";
+  var url = "https://motorcycleapp.herokuapp.com/signup";
   request.open("post", url, true);
   request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
   var dataSet = {
